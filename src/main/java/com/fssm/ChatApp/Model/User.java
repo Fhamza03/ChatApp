@@ -22,6 +22,14 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+    @ManyToMany
+    @JoinTable(
+            name = "user_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private List<User> friends;
+
     @OneToMany(mappedBy = "user")
     private List<UserGroup> userGroups;
     @Column(name = "username")

@@ -15,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Table(name = "user_group")
 public class UserGroup {
+    // This is an association Class between (User and ChatGroup)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_group_id")

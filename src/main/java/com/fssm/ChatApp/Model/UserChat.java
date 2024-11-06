@@ -12,6 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserChat {
+    // This is an association Class between (User and Chat)
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userChatId;

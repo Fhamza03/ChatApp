@@ -23,8 +23,13 @@ public class Message {
 
     private Date messageTime;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "sender_id")  // specify sender_id column
     private User sender;
+
+    // Receiver relationship - mapped to receiver_id column
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")  // specify receiver_id column
+    private User receiver;
 
     @ManyToOne
     @JoinColumn(name = "chat_id")

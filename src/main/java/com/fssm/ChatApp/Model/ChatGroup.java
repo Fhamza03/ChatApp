@@ -19,9 +19,10 @@ public class ChatGroup {
     private Integer groupId;
 
     private String name;
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
     @OneToMany(mappedBy = "group")
     private List<UserGroup> userGroups;
+    @OneToOne
+    @JoinColumn(name = "chat_id")
+    private Chat chat;
 }

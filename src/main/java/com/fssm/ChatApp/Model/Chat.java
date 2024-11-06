@@ -18,11 +18,11 @@ public class Chat {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 
 private Integer chatId;
-    private String name;
-
     @OneToMany(mappedBy = "chat")
     private List<UserChat> userChats;
 
     @OneToMany(mappedBy = "chat")
     private List<Message> messages;
+    @OneToOne(mappedBy = "chat")
+    private ChatGroup chatGroup;
 }
