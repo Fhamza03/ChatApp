@@ -47,5 +47,19 @@ public class User {
     @OneToMany(mappedBy = "sender")
     private List<FriendRequest> friendRequests;
 
+    public Integer getUserId() {
+        return userId;
+    }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
 }
