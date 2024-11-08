@@ -1,5 +1,6 @@
 package com.fssm.ChatApp.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class User {
     private String email;
     private String password;
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<UserFriend> friends;
 
     @OneToMany(mappedBy = "user")

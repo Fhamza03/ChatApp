@@ -11,6 +11,8 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+    // This class define the logic of the user and contain methods
+    // to Create, Read, Update and Delete a User
     @Autowired
     UserRepository userRepository;
 

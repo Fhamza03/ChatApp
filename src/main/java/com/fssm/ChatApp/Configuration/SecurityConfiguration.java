@@ -31,6 +31,7 @@ public class SecurityConfiguration {
         http.csrf().disable()
                 .authorizeRequests((authorize) -> {
                     authorize.requestMatchers(HttpMethod.POST,"/signup","/login").permitAll();
+                    authorize.requestMatchers(HttpMethod.GET).permitAll();
                     authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         http.logout((logout) -> logout

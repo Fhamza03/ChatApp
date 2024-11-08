@@ -1,5 +1,6 @@
 package com.fssm.ChatApp.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,10 +19,22 @@ public class UserFriend {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore // Prevents recursive serialization of user relationship
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "friend_id", nullable = false)
     private User friend;
 
+    public Long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public User getFriend() {
+        return friend;
+    }
 }
