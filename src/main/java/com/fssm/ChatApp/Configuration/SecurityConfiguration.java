@@ -34,7 +34,7 @@ public class SecurityConfiguration {
                     authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         http.logout((logout) -> logout
-                .logoutSuccessUrl("/logoutUser")
+                .logoutSuccessUrl("/logout")
                 .deleteCookies("JSESSIONID")
                 .permitAll()
         );
