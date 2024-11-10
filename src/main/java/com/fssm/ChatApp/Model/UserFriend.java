@@ -37,4 +37,16 @@ public class UserFriend {
     public User getFriend() {
         return friend;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setFriend(User friend) {
+        this.friend = friend;
+    }
 }

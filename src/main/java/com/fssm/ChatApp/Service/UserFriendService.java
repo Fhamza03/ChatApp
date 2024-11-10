@@ -28,6 +28,26 @@ public class UserFriendService {
             throw new RuntimeException("Failed to get friends of " + userId + ": "+e.getMessage());
         }
     }
+
+    //This function make friendship between two users, it inserts them in the UserFriend Table
+    public Boolean makeFriendship(User user, User friend){
+        try {
+            //create new UserFriend object (first the attributs are null)
+            UserFriend friendship = new UserFriend();
+            // set the User with a user given in the param
+            friendship.setUser(user);
+            // set friend with his friend in the param
+            friendship.setFriend(friend);
+            // save Friendship between these two users in the UserFriend table
+            userFriendRepository.save(friendship);
+            // return true if all good
+            return true;
+        }catch (Exception e){
+            // if there is an error throw an exception
+            throw  new RuntimeException("Failed to make friendship between these two users: "+e.getMessage());
+        }
+    }
+
     
 
 }

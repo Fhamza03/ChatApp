@@ -32,6 +32,7 @@ public class SecurityConfiguration {
                 .authorizeRequests((authorize) -> {
                     authorize.requestMatchers(HttpMethod.POST,"/signup","/login").permitAll();
                     authorize.requestMatchers(HttpMethod.GET).permitAll();
+                    authorize.requestMatchers(HttpMethod.POST).permitAll();
                     authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         http.logout((logout) -> logout
