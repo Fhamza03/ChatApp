@@ -1,4 +1,5 @@
 package com.fssm.ChatApp.Controller;
+import com.fssm.ChatApp.Model.Chat;
 import com.fssm.ChatApp.Model.ChatGroup;
 import com.fssm.ChatApp.Service.ChatGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,10 @@ import java.util.List;
         private ChatGroupService chatGroupService;
 
         // Créer un groupe
-        @PostMapping("/CreateGroupe")
-        public ChatGroup createChatGroup(@RequestBody ChatGroup chatGroup) {
+        @PostMapping("/CreateGroupe/{chatId}")
+        public ChatGroup createChatGroup(@RequestBody ChatGroup chatGroup,@PathVariable Integer chatId) {
             try{
-                return chatGroupService.createChatGroup(chatGroup);
-
+                return chatGroupService.createChatGroup(chatGroup,chatId);
             }catch(Exception e){
                 throw new RuntimeException(e.getMessage());
             }
@@ -30,9 +30,9 @@ import java.util.List;
         }
 
         // Mettre à jour un groupe
-        @PutMapping("/UpdateGroup")
-        public ChatGroup updateChatGroup(@RequestBody ChatGroup chatGroup) {
-            return chatGroupService.updateChatGroup(chatGroup);
+        @PutMapping("/UpdateGroup/{chatId}")
+        public ChatGroup updateChatGroup(@RequestBody ChatGroup chatGroup,@PathVariable Integer chatId) {
+            return chatGroupService.updateChatGroup(chatGroup,chatId);
         }
 
         // Supprimer un groupe
