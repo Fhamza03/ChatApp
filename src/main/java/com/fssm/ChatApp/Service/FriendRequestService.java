@@ -7,6 +7,8 @@ import com.fssm.ChatApp.Repository.FriendRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class FriendRequestService {
     @Autowired
@@ -29,6 +31,35 @@ public class FriendRequestService {
         }catch (Exception e){
             // in case there's an error throw a new Exception
             throw new RuntimeException("Failed to send Request: "+ e.getMessage());
+        }
+    }
+
+    // Return a FriendRequest row from database by the id
+    public FriendRequest getFriendRequest(Integer friendRequestId){
+        Optional<FriendRequest> friendRequest = friendRequestRepository.findById(friendRequestId);
+        return friendRequest.orElse(null);
+    }
+
+    // This function takes as a parameter a specific friendrequest id to update his status from PENDING
+    // TO ACCEPTED or REJECTED based on the friend action
+    public String updateFriendRequestStatus(Integer friendRequestId,Status status){
+        try{
+            // get the friendRequest to update from database (First status == PENDING)
+            FriendRequest friendRequest = getFriendRequest(friendRequestId);
+
+            if(status == Status.ACCEPTED){
+                // if the user click on accept to accept the request of his friend we set the status to ACCEPTED
+                friendRequest.setStatus(Status.ACCEPTED);
+            }else if(status == Status.REJECTED){
+                // if the user click on reject to reject the request of his friend we set the status to REJECTED
+                friendRequest.setStatus(Status.REJECTED);
+            }
+            // updating our row in the database
+            friendRequestRepository.save(friendRequest);
+            return "The status successfully updated !";
+        }catch (Exception e){
+            // in case there's an error throw a new Exception
+            throw new RuntimeException("Failed to update request Status: "+ e.getMessage());
         }
     }
 
