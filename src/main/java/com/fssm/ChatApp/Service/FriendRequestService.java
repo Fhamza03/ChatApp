@@ -15,6 +15,8 @@ public class FriendRequestService {
     UserChatService userChatService;
     @Autowired
     ChatService chatService;
+    @Autowired
+    NotificationService notificationService;
 
     // This function let a user send a request to an other user so they can be friends and they can have a chat after
     public String sendRequest(User sender,User receiver){
@@ -27,6 +29,9 @@ public class FriendRequestService {
             friendRequest.setReceiver(receiver);
             // For the first time the request status PENDING...
             friendRequest.setStatus(Status.PENDING);
+
+            notificationService.createNotification(sender,receiver,"Notification sent from " +sender.getUserName()+" to "+receiver.getUserName()+" Successfully");
+
             // save our object in the database
             friendRequestRepository.save(friendRequest);
             return sender.getUserName() + " has sent a friend request to " + receiver.getUserName();

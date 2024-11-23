@@ -38,8 +38,13 @@ public class User {
     @OneToMany(mappedBy = "sender")
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "user")
-    private List<Notification> notifications;
+    @OneToMany(mappedBy = "sender")
+    @JsonIgnore
+    private List<Notification> sentNotifications;
+
+    @OneToMany(mappedBy = "receiver")
+    @JsonIgnore
+    private List<Notification> receivedNotifications;
 
     @OneToMany(mappedBy = "sender")
     private List<FriendRequest> friendRequests;
