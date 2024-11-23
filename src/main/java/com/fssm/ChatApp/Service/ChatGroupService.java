@@ -20,6 +20,7 @@ import java.util.Optional;
         @Autowired
         private ChatService chatService;
 
+
         // Créer un groupe de discussion
         public ChatGroup createChatGroup(ChatGroup chatGroup,Integer chatId) {
             try {
@@ -62,6 +63,7 @@ import java.util.Optional;
                 throw new RuntimeException("Failed to delete chat group: " + e.getMessage());
             }
         }
+
     }
 
 
