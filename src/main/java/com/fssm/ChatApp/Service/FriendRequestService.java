@@ -1,8 +1,6 @@
 package com.fssm.ChatApp.Service;
 
-import com.fssm.ChatApp.Model.FriendRequest;
-import com.fssm.ChatApp.Model.Status;
-import com.fssm.ChatApp.Model.User;
+import com.fssm.ChatApp.Model.*;
 import com.fssm.ChatApp.Repository.FriendRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +11,10 @@ import java.util.Optional;
 public class FriendRequestService {
     @Autowired
     FriendRequestRepository friendRequestRepository;
+    @Autowired
+    UserChatService userChatService;
+    @Autowired
+    ChatService chatService;
 
     // This function let a user send a request to an other user so they can be friends and they can have a chat after
     public String sendRequest(User sender,User receiver){
@@ -40,27 +42,32 @@ public class FriendRequestService {
         return friendRequest.orElse(null);
     }
 
-    // This function takes as a parameter a specific friendrequest id to update his status from PENDING
-    // TO ACCEPTED or REJECTED based on the friend action
-    public String updateFriendRequestStatus(Integer friendRequestId,Status status){
+    public String onAcceptFriendRequest(Integer friendRequestId){
         try{
-            // get the friendRequest to update from database (First status == PENDING)
             FriendRequest friendRequest = getFriendRequest(friendRequestId);
-
-            if(status == Status.ACCEPTED){
-                // if the user click on accept to accept the request of his friend we set the status to ACCEPTED
-                friendRequest.setStatus(Status.ACCEPTED);
-            }else if(status == Status.REJECTED){
-                // if the user click on reject to reject the request of his friend we set the status to REJECTED
-                friendRequest.setStatus(Status.REJECTED);
-            }
-            // updating our row in the database
+            friendRequest.setStatus(Status.ACCEPTED);
             friendRequestRepository.save(friendRequest);
-            return "The status successfully updated !";
+
+            Chat chat = new Chat(ChatType.NORMAL);
+            chatService.createChat(chat);
+            userChatService.LinkTwoUsersWithChat(friendRequest.getSender(),friendRequest.getReceiver(),chat);
+
+            return "The status successfully accepted";
         }catch (Exception e){
             // in case there's an error throw a new Exception
             throw new RuntimeException("Failed to update request Status: "+ e.getMessage());
         }
     }
+    public String onRejectFriendRequest(Integer friendRequestId){
+        try{
+            FriendRequest friendRequest = getFriendRequest(friendRequestId);
+            friendRequest.setStatus(Status.REJECTED);
+            friendRequestRepository.save(friendRequest);
+            return "The friendRequest successfully rejected";
+        }catch (Exception e){
+            throw new RuntimeException("Failed to update request Status: "+ e.getMessage());
+        }
+    }
+
 
 }

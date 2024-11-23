@@ -17,7 +17,10 @@ public class Chat {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-private Integer chatId;
+    private Integer chatId;
+    @Enumerated(EnumType.STRING)
+    private ChatType chatType;
+
     @OneToMany(mappedBy = "chat")
     private List<UserChat> userChats;
 
@@ -25,4 +28,48 @@ private Integer chatId;
     private List<Message> messages;
     @OneToOne(mappedBy = "chat")
     private ChatGroup chatGroup;
+
+    public Chat(ChatType chatType) {
+        this.chatType = chatType;
+    }
+
+    public Integer getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Integer chatId) {
+        this.chatId = chatId;
+    }
+
+    public ChatType getChatType() {
+        return chatType;
+    }
+
+    public void setChatType(ChatType chatType) {
+        this.chatType = chatType;
+    }
+
+    public List<UserChat> getUserChats() {
+        return userChats;
+    }
+
+    public void setUserChats(List<UserChat> userChats) {
+        this.userChats = userChats;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public ChatGroup getChatGroup() {
+        return chatGroup;
+    }
+
+    public void setChatGroup(ChatGroup chatGroup) {
+        this.chatGroup = chatGroup;
+    }
 }

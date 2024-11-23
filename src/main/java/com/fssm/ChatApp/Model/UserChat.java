@@ -27,4 +27,36 @@ public class UserChat {
     private Chat chat;
 
     private Boolean isActive;
+
+    public Integer getUserChatId() {
+        return userChatId;
+    }
+
+    public void setUserChatId(Integer userChatId) {
+        this.userChatId = userChatId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Chat getChat() {
+        return chat;
+    }
+
+    public void setChat(Chat chat) {
+        this.chat = chat;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
 }
