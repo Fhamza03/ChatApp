@@ -2,6 +2,7 @@ package com.fssm.ChatApp.Service;
 
 import com.fssm.ChatApp.Model.Chat;
 import com.fssm.ChatApp.Model.ChatGroup;
+import com.fssm.ChatApp.Model.ChatType;
 import org.springframework.stereotype.Service;
 import com.fssm.ChatApp.Model.User;
 import com.fssm.ChatApp.Repository.ChatGroupRepository;
@@ -22,9 +23,10 @@ import java.util.Optional;
 
 
         // Créer un groupe de discussion
-        public ChatGroup createChatGroup(ChatGroup chatGroup,Integer chatId) {
+        public ChatGroup createChatGroup(ChatGroup chatGroup) {
             try {
-                Chat chat = chatService.getChatById(chatId);
+                Chat chat = new Chat(ChatType.GROUP);
+                chatService.createChat(chat);
                 chatGroup.setChat(chat);
                 return chatGroupRepository.save(chatGroup);
             } catch (Exception e) {

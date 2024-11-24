@@ -33,6 +33,7 @@ public class UserChatService {
         }
     }
 
+
     public UserChat getUserChat(Integer userChatId){
         try{
             Optional<UserChat> userChat = userChatRepository.findById(userChatId);

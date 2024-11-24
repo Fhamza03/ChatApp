@@ -17,6 +17,8 @@ public class FriendRequestService {
     ChatService chatService;
     @Autowired
     NotificationService notificationService;
+    @Autowired
+    UserFriendService userFriendService;
 
     // This function let a user send a request to an other user so they can be friends and they can have a chat after
     public String sendRequest(User sender,User receiver){
@@ -56,6 +58,8 @@ public class FriendRequestService {
             Chat chat = new Chat(ChatType.NORMAL);
             chatService.createChat(chat);
             userChatService.LinkTwoUsersWithChat(friendRequest.getSender(),friendRequest.getReceiver(),chat);
+
+            userFriendService.makeFriendship(friendRequest.getSender(),friendRequest.getReceiver());
 
             return "The status successfully accepted";
         }catch (Exception e){

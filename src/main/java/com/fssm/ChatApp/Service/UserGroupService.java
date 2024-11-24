@@ -1,9 +1,7 @@
 package com.fssm.ChatApp.Service;
 
-import com.fssm.ChatApp.Model.ChatGroup;
-import com.fssm.ChatApp.Model.Role;
-import com.fssm.ChatApp.Model.User;
-import com.fssm.ChatApp.Model.UserGroup;
+import com.fssm.ChatApp.Model.*;
+import com.fssm.ChatApp.Repository.UserChatRepository;
 import com.fssm.ChatApp.Repository.UserGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +19,8 @@ public class UserGroupService {
     ChatGroupService chatGroupService;
     @Autowired
     UserService userService;
+    @Autowired
+    UserChatRepository userChatRepository;
 
     public UserGroup getUserGroup(Integer userGroupId){
         Optional<UserGroup> userGroup =  userGroupRepository.findById(userGroupId);
@@ -37,6 +37,12 @@ public class UserGroupService {
             userGroup.setRole(Role.PARTICIPANT);
             userGroup.setDateJoined(new Date());
             userGroupRepository.save(userGroup);
+
+            UserChat userChat = new UserChat();
+            userChat.setActive(false);
+            userChat.setUser(user);
+            userChat.setChat(group.getChat());
+            userChatRepository.save(userChat);
             return userGroup;
         }catch(Exception ex){
             throw new RuntimeException(ex.getMessage());

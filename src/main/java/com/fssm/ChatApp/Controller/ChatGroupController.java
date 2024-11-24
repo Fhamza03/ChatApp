@@ -14,10 +14,10 @@ import java.util.List;
         private ChatGroupService chatGroupService;
 
         // Créer un groupe
-        @PostMapping("/CreateGroupe/{chatId}")
-        public ChatGroup createChatGroup(@RequestBody ChatGroup chatGroup,@PathVariable Integer chatId) {
+        @PostMapping("/CreateGroupe")
+        public ChatGroup createChatGroup(@RequestBody ChatGroup chatGroup) {
             try{
-                return chatGroupService.createChatGroup(chatGroup,chatId);
+                return chatGroupService.createChatGroup(chatGroup);
             }catch(Exception e){
                 throw new RuntimeException(e.getMessage());
             }
