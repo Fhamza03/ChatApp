@@ -7,6 +7,8 @@ import com.fssm.ChatApp.Repository.UserChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserChatService {
     @Autowired
@@ -28,6 +30,15 @@ public class UserChatService {
             return true;
         } catch (Exception e) {
             throw new RuntimeException("Failed to link the users with that chat : " + e.getMessage());
+        }
+    }
+
+    public UserChat getUserChat(Integer userChatId){
+        try{
+            Optional<UserChat> userChat = userChatRepository.findById(userChatId);
+            return  userChat.orElse(null);
+        }catch (Exception ex){
+            throw new RuntimeException(ex.getMessage());
         }
     }
 
