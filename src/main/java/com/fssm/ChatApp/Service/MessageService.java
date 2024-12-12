@@ -33,6 +33,9 @@ public class MessageService {
             throw new RuntimeException(ex.getMessage());
         }
     }
+    public List<Message> getMessagesForChat(Integer chatId) {
+        return messageRepository.findByChat(chatId);
+    }
 
     public List<Message> getAllMessagesbetween(Integer senderId, Integer receiverId){
         try {
