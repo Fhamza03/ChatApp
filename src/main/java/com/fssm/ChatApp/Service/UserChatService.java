@@ -7,6 +7,7 @@ import com.fssm.ChatApp.Repository.UserChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +34,13 @@ public class UserChatService {
         }
     }
 
+    public List<Object[]> getAllUserChats(Integer userId){
+        try{
+            return userChatRepository.findChatsByUserId(userId);
+        }catch (Exception ex){
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
 
     public UserChat getUserChat(Integer userChatId){
         try{

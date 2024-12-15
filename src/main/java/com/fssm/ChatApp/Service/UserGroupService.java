@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -57,9 +59,9 @@ public class UserGroupService {
             throw new RuntimeException(ex.getMessage());
         }
     }
-    public UserGroup changeRoleInGroup(Integer userGroupId){
+    public UserGroup changeRoleInGroup(Integer userId, Integer groupId){
         try{
-            UserGroup userGroup = getUserGroup(userGroupId);
+            UserGroup userGroup = userGroupRepository.findByUserAndGroup(userId,groupId);
             if(userGroup.getRole() == Role.PARTICIPANT){
                 userGroup.setRole(Role.ADMIN);
                 userGroupRepository.save(userGroup);
@@ -68,6 +70,10 @@ public class UserGroupService {
         }catch(Exception ex){
             throw new RuntimeException(ex.getMessage());
         }
+    }
+
+    public List<Map<String, Object>> getGroupsByUserId(Integer userId) {
+        return userGroupRepository.findGroupsByUserId(userId);
     }
 
 }

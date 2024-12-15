@@ -71,6 +71,7 @@ public class UserController {
 
             HttpSession session = request.getSession();
             session.setAttribute("username", userDetails.getUsername());
+            session.setAttribute("userId",user.getUserId());
 
             LOGGER.info("User logged in: " + userDetails.getUsername());
 

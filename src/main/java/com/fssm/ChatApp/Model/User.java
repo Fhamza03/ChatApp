@@ -28,14 +28,17 @@ public class User {
     private List<UserFriend> friends;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<UserGroup> userGroups;
     @Column(name = "username")
     private String userName;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<UserChat> userChats;
 
     @OneToMany(mappedBy = "sender")
+    @JsonIgnore
     private List<Message> messages;
 
     @OneToMany(mappedBy = "sender")
@@ -47,6 +50,8 @@ public class User {
     private List<Notification> receivedNotifications;
 
     @OneToMany(mappedBy = "sender")
+    @JsonIgnore
+
     private List<FriendRequest> friendRequests;
 
     public Integer getUserId() {
@@ -63,5 +68,93 @@ public class User {
 
     public String getUserName() {
         return userName;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<UserFriend> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<UserFriend> friends) {
+        this.friends = friends;
+    }
+
+    public List<UserGroup> getUserGroups() {
+        return userGroups;
+    }
+
+    public void setUserGroups(List<UserGroup> userGroups) {
+        this.userGroups = userGroups;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public List<UserChat> getUserChats() {
+        return userChats;
+    }
+
+    public void setUserChats(List<UserChat> userChats) {
+        this.userChats = userChats;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public List<Notification> getSentNotifications() {
+        return sentNotifications;
+    }
+
+    public void setSentNotifications(List<Notification> sentNotifications) {
+        this.sentNotifications = sentNotifications;
+    }
+
+    public List<Notification> getReceivedNotifications() {
+        return receivedNotifications;
+    }
+
+    public void setReceivedNotifications(List<Notification> receivedNotifications) {
+        this.receivedNotifications = receivedNotifications;
+    }
+
+    public List<FriendRequest> getFriendRequests() {
+        return friendRequests;
+    }
+
+    public void setFriendRequests(List<FriendRequest> friendRequests) {
+        this.friendRequests = friendRequests;
     }
 }

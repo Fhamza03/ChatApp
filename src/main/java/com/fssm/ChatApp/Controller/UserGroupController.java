@@ -3,7 +3,11 @@ package com.fssm.ChatApp.Controller;
 import com.fssm.ChatApp.Model.UserGroup;
 import com.fssm.ChatApp.Service.UserGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class UserGroupController {
@@ -28,13 +32,19 @@ public class UserGroupController {
         }
     }
 
-    @PutMapping("/changeRole/{userGroupId}")
-    public UserGroup changeRoleInGroup(@PathVariable Integer userGroupId){
+    @PutMapping("/changeRole/{userId}/{groupId}")
+    public UserGroup changeRoleInGroup(@PathVariable Integer userId, @PathVariable Integer groupId){
         try{
-            return userGroupService.changeRoleInGroup(userGroupId);
+            return userGroupService.changeRoleInGroup(userId,groupId);
 
         }catch (Exception ex){
             throw new RuntimeException(ex.getMessage());
         }
+    }
+
+    @GetMapping("/AllGroups/{userId}")
+    public ResponseEntity<List<Map<String, Object>>> getGroupsByUserId(@PathVariable Integer userId) {
+        List<Map<String, Object>> groups = userGroupService.getGroupsByUserId(userId);
+        return ResponseEntity.ok(groups);
     }
 }

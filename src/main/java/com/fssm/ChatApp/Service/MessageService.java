@@ -9,9 +9,7 @@ import com.fssm.ChatApp.Repository.UserChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MessageService {
@@ -33,8 +31,32 @@ public class MessageService {
             throw new RuntimeException(ex.getMessage());
         }
     }
-    public List<Message> getMessagesForChat(Integer chatId) {
-        return messageRepository.findByChat(chatId);
+    public List<Map<String, Object>> getMessagesForChat(Integer chatId) {
+        // Get the raw result from the repository
+        List<Object[]> result = messageRepository.findMessagesWithUsernamesByChatId(chatId);
+
+        // Create a list of maps to store each message's data
+        List<Map<String, Object>> messages = new ArrayList<>();
+
+        // Iterate over the result and convert each Object[] into a Map
+        for (Object[] row : result) {
+            Map<String, Object> messageMap = new HashMap<>();
+
+            // Map the fields from Object[] to Map with field names as keys
+            messageMap.put("message_id", row[0]);
+            messageMap.put("content", row[1]);
+            messageMap.put("message_time", row[2]);
+            messageMap.put("chat_id", row[3]);
+            messageMap.put("receiver_id", row[4]);
+            messageMap.put("sender_id", row[5]);
+            messageMap.put("sender_username", row[6]); // sender username
+            messageMap.put("receiver_username", row[7]); // receiver username
+
+            // Add the map to the list
+            messages.add(messageMap);
+        }
+
+        return messages;
     }
 
     public List<Message> getAllMessagesbetween(Integer senderId, Integer receiverId){
@@ -46,7 +68,7 @@ public class MessageService {
         }
     }
 
-    public List<Message> saveMessage(Integer senderId, Integer chatId, String messageContent) {
+    public List<Message> saveMessage(Integer senderId, Integer chatId, String messageContent, Date messageTime) {
         // Step 1: Find the sender
         User sender = userService.getUser(senderId);
 
@@ -72,7 +94,6 @@ public class MessageService {
                 .toList();
 
         // Step 5: Create the messages for each receiver
-        Date messageTime = new Date();
         List<Message> messages = receivers.stream().map(receiver -> {
             Message message = new Message();
             message.setSender(sender);
