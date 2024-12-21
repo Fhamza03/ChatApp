@@ -13,12 +13,16 @@ import java.util.Optional;
 public interface UserChatRepository extends JpaRepository<UserChat,Integer> {
 //    Optional<UserChat> findByUserAndChat(User user, Chat chat);
     List<UserChat> findByChat(Chat chat);
-    @Query(value = "SELECT uf.user_id, uf.friend_id, uc.chat_id, c.chat_type, u.username " +
-            "FROM user_friend uf " +
-            "JOIN user_chat uc ON uf.user_id = uc.user_id " +
+    @Query(value = "SELECT u.username, u.first_name, u.last_name, uc.user_id, uc.chat_id " +
+            "FROM user_chat uc " +
             "JOIN chat c ON uc.chat_id = c.chat_id " +
-            "JOIN user u ON u.user_id = uf.friend_id " +
-            "WHERE (uf.user_id = :userId OR uf.friend_id = :userId) " +
+            "JOIN user u ON uc.user_id = u.user_id " +
+            "WHERE uc.chat_id IN ( " +
+            "    SELECT uc.chat_id " +
+            "    FROM user_chat uc " +
+            "    WHERE uc.user_id = :userId " +
+            ") " +
+            "AND uc.user_id != :userId " +
             "AND c.chat_type = 'NORMAL'", nativeQuery = true)
     List<Object[]> findChatsByUserId(@Param("userId") Integer userId);
 }

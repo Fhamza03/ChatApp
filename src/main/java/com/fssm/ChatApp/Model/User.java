@@ -54,6 +54,30 @@ public class User {
 
     private List<FriendRequest> friendRequests;
 
+    @Column(name = "verification_token", unique = true)
+    private String verificationToken;
+
+    @Column(name = "is_verified", nullable = false)
+    private boolean isVerified = false;
+//    @Column(name = "enabled", nullable = false)
+//    private boolean enabled = false;
+
+    public String getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
     public Integer getUserId() {
         return userId;
     }

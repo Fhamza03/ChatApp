@@ -22,6 +22,7 @@ public interface MessageRepository extends JpaRepository<Message,Integer> {
             "JOIN user receiver ON receiver.user_id = m.receiver_id " +
             "WHERE m.chat_id = :chatId", nativeQuery = true)
     List<Object[]> findMessagesWithUsernamesByChatId(Integer chatId);
+
 }
 
 

@@ -1,15 +1,16 @@
 package com.fssm.ChatApp.Controller;
 
 import com.fssm.ChatApp.Model.Chat;
+import com.fssm.ChatApp.Model.FriendRequest;
 import com.fssm.ChatApp.Model.Status;
 import com.fssm.ChatApp.Service.ChatService;
 import com.fssm.ChatApp.Service.FriendRequestService;
 import com.fssm.ChatApp.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class FriendRequestController {
@@ -51,6 +52,19 @@ public class FriendRequestController {
             // In case there's an error we throw an exception
             throw new RuntimeException("Failed to update status: "+ e.getMessage());
         }
+    }
+    @GetMapping("/StatusFriendship/{senderId}/{receiverId}")
+    public FriendRequest getStatusFriendship(@PathVariable Integer senderId, @PathVariable Integer receiverId){
+        try{
+            return friendRequestService.getStatusFriendship(senderId,receiverId);
+        }catch(Exception ex){
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/Notifications/{receiverId}")
+    public List<Map<String, Object>> getNotifications(@PathVariable Integer receiverId) {
+        return friendRequestService.getFriendRequestsByReceiverId(receiverId);
     }
 
 }

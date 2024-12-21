@@ -15,7 +15,7 @@ import lombok.Setter;
 public class UserFriend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -26,7 +26,7 @@ public class UserFriend {
     @JoinColumn(name = "friend_id", nullable = false)
     private User friend;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -38,7 +38,7 @@ public class UserFriend {
         return friend;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

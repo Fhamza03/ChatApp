@@ -18,21 +18,8 @@ public class UserChatController {
     UserChatService userChatService;
 
     @GetMapping("/getAllChats/{userId}")
-    public List<Map<String, Object>> getAllChatsForUser(@PathVariable Integer userId) {
-        List<Object[]> results = userChatService.getAllUserChats(userId);
-
-        List<Map<String, Object>> response = new ArrayList<>();
-        for (Object[] row : results) {
-            Map<String, Object> chatData = new HashMap<>();
-            chatData.put("user_id", row[0]);
-            chatData.put("friend_id", row[1]);
-            chatData.put("chat_id", row[2]);
-            chatData.put("chat_type", row[3]);
-            chatData.put("friend_username", row[4]); // Add the friend's username
-            response.add(chatData);
-        }
-
-        return response;
+    public List<Map<String, Object>> getAllChats(@PathVariable Integer userId) {
+        return userChatService.getAllUserChats(userId);  // Call the service method
     }
 
 }

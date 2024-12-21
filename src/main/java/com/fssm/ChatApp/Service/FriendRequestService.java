@@ -5,7 +5,7 @@ import com.fssm.ChatApp.Repository.FriendRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class FriendRequestService {
@@ -76,6 +76,35 @@ public class FriendRequestService {
         }catch (Exception e){
             throw new RuntimeException("Failed to update request Status: "+ e.getMessage());
         }
+    }
+
+    public FriendRequest getStatusFriendship(Integer senderId, Integer receiverId){
+        try {
+            return friendRequestRepository.findRequestBySenderAndReceiver(senderId,receiverId);
+        }catch (Exception ex){
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
+
+    public List<Map<String, Object>> getFriendRequestsByReceiverId(Integer receiverId) {
+        List<Object[]> results = friendRequestRepository.findAllByReceiverId(receiverId);
+        List<Map<String, Object>> response = new ArrayList<>();
+
+        for (Object[] result : results) {
+            Map<String, Object> request = new HashMap<>();
+            request.put("friend_request_id", result[0]);
+            request.put("status", result[1]);
+            request.put("receiver_id", result[2]);
+            request.put("sender_id", result[3]);
+            request.put("sender_email", result[4]);
+            request.put("sender_first_name", result[5]);
+            request.put("sender_last_name", result[6]);
+            request.put("sender_username", result[7]);
+
+            response.add(request);
+        }
+
+        return response;
     }
 
 

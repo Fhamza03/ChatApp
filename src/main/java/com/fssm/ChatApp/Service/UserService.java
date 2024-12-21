@@ -5,9 +5,9 @@ import com.fssm.ChatApp.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.LinkedList;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -15,6 +15,8 @@ public class UserService {
     // to Create, Read, Update and Delete a User
     @Autowired
     UserRepository userRepository;
+    private static final String UPLOAD_DIR = "src/main/resources/static/images/";
+
 
     // This function store users in my database
     public User CreateUser(User user) {
@@ -46,6 +48,41 @@ public class UserService {
         }catch(Exception e){
             throw new RuntimeException("Failed to remove user: " + e.getMessage());
         }
+    }
+    public List<Map<String, Object>> getAllUsers() {
+        List<Object[]> users = userRepository.findAllUsersWithLimitedFields();
+        List<Map<String, Object>> userDetails = new ArrayList<>();
+
+        for (Object[] user : users) {
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("userId", user[0]);
+            userMap.put("firstName", user[1]);
+            userMap.put("lastName", user[2]);
+            userMap.put("userName", user[3]);
+
+            userDetails.add(userMap);
+        }
+
+        return userDetails;
+    }
+
+    public List<Map<String, Object>> findUsersWithStatus(Integer senderId) {
+        List<Object[]> results = userRepository.findUsersWithStatus(senderId);
+
+        List<Map<String, Object>> usersWithStatus = new ArrayList<>();
+        for (Object[] row : results) {
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("userId", row[0]);
+            userMap.put("email", row[1]);
+            userMap.put("firstName", row[2]);
+            userMap.put("lastName", row[3]);
+            userMap.put("username", row[4]);
+            userMap.put("friendshipStatus", row[5] != null ? row[5].toString() : null);
+
+            usersWithStatus.add(userMap);
+        }
+
+        return usersWithStatus;
     }
 
 }
